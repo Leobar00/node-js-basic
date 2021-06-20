@@ -1,6 +1,7 @@
 const fs = require('fs');
 const chalk = require('chalk');     // modulo per configurare i colori delle testo del terminale
-const yargs = require('yargs')      // modulo per configurare e creare comandi da linea di terminale passandolgi più parametri
+const yargs = require('yargs');      // modulo per configurare e creare comandi da linea di terminale passandolgi più parametri
+
 
 yargs.version('1.1.0')
 
@@ -9,8 +10,15 @@ yargs.version('1.1.0')
 yargs.command({
     command: 'add',
     describe: 'Add a new note',
-    handler: function () {
-        console.log('adding a new note!')
+    builder: {      // per aggiungere parametri a quello che inseriamo nel terminale
+        title: {
+            describe: 'Note title', 
+            demandOption: true,      // imposta che il cmapo title sia richiesto 
+            type: 'string'      // il tipo che deve avere il campo che inserimao nel terminale
+        }
+    },
+    handler: function (argv) {
+        console.log('Title: ' + argv.title) // gli passiamo il valore del titolo recuperato da argv 
     }
 })
 
@@ -43,6 +51,3 @@ yargs.command({
         console.log('read all notes')
     }
 })
-
-
-console.log(yargs.argv);
